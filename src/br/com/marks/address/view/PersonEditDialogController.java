@@ -1,5 +1,6 @@
 package br.com.marks.address.view;
 
+import br.com.marks.address.dao.PersonDAO;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -90,7 +91,7 @@ public class PersonEditDialogController {
             person.setPostalCode(Integer.parseInt(postalCodeField.getText()));
             person.setCity(cityField.getText());
             person.setBirthday(DateUtil.parse(birthdayField.getText()));
-
+            new PersonDAO().persistPerson(person);
             okClicked = true;
             dialogStage.close();
         }

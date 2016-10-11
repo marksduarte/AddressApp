@@ -28,12 +28,10 @@ public class Person {
     public Person(String firstName, String lastName) {
         this.firstName = new SimpleStringProperty(firstName);
         this.lastName = new SimpleStringProperty(lastName);
-
-        // Alguns dados de exemplo, apenas para testes.
-        this.street = new SimpleStringProperty("some street");
-        this.postalCode = new SimpleIntegerProperty(1234);
-        this.city = new SimpleStringProperty("some city");
-        this.birthday = new SimpleObjectProperty<LocalDate>(LocalDate.of(1999, 2, 21));
+        this.street = new SimpleStringProperty();
+        this.postalCode = new SimpleIntegerProperty();
+        this.city = new SimpleStringProperty();
+        this.birthday = new SimpleObjectProperty<>();
     }
 
     public String getFirstName() {

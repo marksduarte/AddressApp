@@ -1,5 +1,6 @@
 package br.com.marks.address;
 
+import br.com.marks.address.dao.PersonDAO;
 import br.com.marks.address.model.Person;
 import br.com.marks.address.view.PersonEditDialogController;
 import br.com.marks.address.view.PersonOverviewController;
@@ -14,6 +15,8 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.SQLException;
 
 /**
  * Created by marks on 05/10/2016.
@@ -21,26 +24,22 @@ import java.io.IOException;
 public class MainApp extends Application {
     private Stage primaryStage;
     private BorderPane rootLayout;
-
-    /**
-     * Os dados como uma observable list de Persons.
-     */
     private ObservableList<Person> personData = FXCollections.observableArrayList();
 
     /**
      * Construtor
      */
     public MainApp() {
-        // Add some sample data
-        personData.add(new Person("Hans", "Muster"));
-        personData.add(new Person("Ruth", "Mueller"));
-        personData.add(new Person("Heinz", "Kurz"));
-        personData.add(new Person("Cornelia", "Meier"));
-        personData.add(new Person("Werner", "Meyer"));
-        personData.add(new Person("Lydia", "Kunz"));
-        personData.add(new Person("Anna", "Best"));
-        personData.add(new Person("Stefan", "Meier"));
-        personData.add(new Person("Martin", "Mueller"));
+//        // Add some sample data
+//        personData.add(new Person("Hans", "Muster"));
+//        personData.add(new Person("Ruth", "Mueller"));
+//        personData.add(new Person("Heinz", "Kurz"));
+//        personData.add(new Person("Cornelia", "Meier"));
+//        personData.add(new Person("Werner", "Meyer"));
+//        personData.add(new Person("Lydia", "Kunz"));
+//        personData.add(new Person("Anna", "Best"));
+//        personData.add(new Person("Stefan", "Meier"));
+//        personData.add(new Person("Martin", "Mueller"));
     }
 
     /**
@@ -51,10 +50,22 @@ public class MainApp extends Application {
         return personData;
     }
 
+    public void loadPersonData(){
+        personData.addAll(PersonDAO.getListPerson());
+    }
+
     @Override
     public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;
-        this.primaryStage.setTitle("AddressApp");
+        this.primaryStage.setTitle("Minha Agenda");
+
+        if(PersonDAO.createTable()){
+            System.out.println("Tabela Person criada.");
+        } else {
+            System.out.println("Tabela Person já existe.");
+        }
+
+        loadPersonData();
 
         initRootLayout();
 
@@ -104,7 +115,7 @@ public class MainApp extends Application {
 
     /**
      * Abre uma janela para editar detalhes para a pessoa especificada. Se o usuário clicar
-     * OK, as mudanças são salvasno objeto pessoa fornecido e retorna true.
+     * OK, as mudanças são salvas no objeto pessoa fornecido e retorna true.
      *
      * @param person O objeto pessoa a ser editado
      * @return true Se o usuário clicou OK,  caso contrário false.
@@ -118,7 +129,7 @@ public class MainApp extends Application {
 
             // Cria o palco dialogStage.
             Stage dialogStage = new Stage();
-            dialogStage.setTitle("Edit Person");
+            dialogStage.setTitle("Editar Contato");
             dialogStage.initModality(Modality.WINDOW_MODAL);
             dialogStage.initOwner(primaryStage);
             Scene scene = new Scene(page);
