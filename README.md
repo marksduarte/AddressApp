@@ -1,2 +1,2 @@
 # AddressApp
-Tutorial de JavaFX8 usando como modelo uma agenda.
+Aplicação de agenda pessoal em JavaFX8.
